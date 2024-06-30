@@ -7,7 +7,6 @@ const app = express();
 const port = 3030;
 
 app.use(bodyParser.json());
-
 app.use(cors());
 
 const db = mysql.createConnection({
@@ -33,14 +32,12 @@ app.get("/tasks", (req, res) => {
   db.query("SELECT * FROM tasks", (err, result) => {
     if (err) {
       console.error("Error when searching for tasks:", err);
+      res.status(500).send("Server error");
       return;
     }
     res.json(result);
   });
 });
-
-const newTask = "teste1";
-const comp = 0;
 
 app.post("/tasks", (req, res) => {
   const { title, completed } = req.body;
@@ -49,7 +46,9 @@ app.post("/tasks", (req, res) => {
     [title, completed],
     (err, result) => {
       if (err) {
-        return res.status(500).send(err);
+        console.error("Error creating task:", err);
+        res.status(500).send("Server error");
+        return;
       }
       res.status(201).json({ id: result.insertId, title, completed });
     }
@@ -64,10 +63,13 @@ app.put("/tasks/:id", (req, res) => {
     [title, completed, id],
     (err, results) => {
       if (err) {
-        return res.status(500).send(err);
+        console.error(`Error updating task with ID ${id}:`, err);
+        res.status(500).send("Server error");
+        return;
       }
       if (results.affectedRows === 0) {
-        return res.status(404).send("Task not found");
+        res.status(404).send("Task not found");
+        return;
       }
       res.send("Task updated successfully");
     }
@@ -78,12 +80,14 @@ app.delete("/tasks/:id", (req, res) => {
   const { id } = req.params;
   db.query("DELETE FROM tasks WHERE id = ?", [id], (err, results) => {
     if (err) {
-      return res.status(500).send(err);
-    } else {
-      if (results.affectedRows === 0) {
-        return res.status(404).send("Task not found");
-      }
-      res.send("Task deleted successfully");
+      console.error(`Error deleting task with ID ${id}:`, err);
+      res.status(500).send("Server error");
+      return;
     }
+    if (results.affectedRows === 0) {
+      res.status(404).send("Task not found");
+      return;
+    }
+    res.send("Task deleted successfully");
   });
 });
