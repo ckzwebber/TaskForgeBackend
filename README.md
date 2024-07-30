@@ -4,8 +4,8 @@ Seja bem-vindo! Aqui se encontra o código-fonte do backend do site de tarefas T
 
 ## Sobre
 
-- **📱 Tecnologias:** FrontEnd: React. Backend: Express, NodeJS e MySQL.
 O app ainda está em desenvolvimento e sofrendo alterações constantes. Trata-se de um projeto que permite ao usuário criar uma conta e começar seu to-do list! <br><br>
+- **📱 Tecnologias:** FrontEnd: React. Backend: Express, NodeJS e MySQL.
 
 ## Atenção
 
