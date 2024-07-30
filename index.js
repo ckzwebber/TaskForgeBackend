@@ -11,9 +11,9 @@ app.use(cors());
 
 const db = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "sql@serverTask#01",
-  database: "taskforge",
+  user: "YOURUSER",
+  password: "YOURPASSWORD",
+  database: "YOURDATAABAASE",
 });
 
 db.connect((err) => {
@@ -21,7 +21,7 @@ db.connect((err) => {
     console.error("Error connecting to database:", err);
     return;
   }
-  console.log("Connected to TaskForge MySQL database");
+  console.log("Connected to MySQL database");
 });
 
 app.listen(port, () => {
